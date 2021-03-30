@@ -30,16 +30,19 @@ let persons = [
   },
 ];
 
+// GET ALL PERSONS
 app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
 
+// DELETE A PERSON
 app.delete("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
   persons = persons.filter((person) => person.id !== id);
   response.status(204).end();
 });
 
+// GET A SINGLE PERSON
 app.get("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
   const person = persons.find((person) => person.id === id);
@@ -51,11 +54,13 @@ app.get("/api/persons/:id", (request, response) => {
   }
 });
 
+// GENERATE ID
 const generatedId = () => {
   const maxId = persons.length > 0 ? Math.max(...persons.map((p) => p.id)) : 0;
   return maxId + 1;
 };
 
+// POST A NEW PERSON
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
@@ -75,6 +80,7 @@ app.post("/api/persons", (request, response) => {
   response.json(person);
 });
 
+// INFO PAGE
 app.get("/info", (request, response) => {
   response.send(
     "Phonebook has info for " +
