@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 let persons = [
   {
@@ -48,6 +49,30 @@ app.get("/api/persons/:id", (request, response) => {
     response.status(404).end();
     console.log("WRONG ID");
   }
+});
+
+const generatedId = () => {
+  const maxId = persons.length > 0 ? Math.max(...persons.map((p) => p.id)) : 0;
+  return maxId + 1;
+};
+
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+
+  if (!body.name) {
+    return response.status(400).json({
+      error: "Name is missing",
+    });
+  }
+
+  const person = {
+    name: body.name,
+    phone: body.phone,
+    id: generatedId(),
+  };
+
+  persons = persons.concat(person);
+  response.json(person);
 });
 
 app.get("/info", (request, response) => {
