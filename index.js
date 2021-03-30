@@ -32,6 +32,13 @@ let persons = [
 app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
+
+app.delete("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((person) => person.id !== id);
+  response.status(204).end();
+});
+
 app.get("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
   const person = persons.find((person) => person.id === id);
@@ -42,6 +49,7 @@ app.get("/api/persons/:id", (request, response) => {
     console.log("WRONG ID");
   }
 });
+
 app.get("/info", (request, response) => {
   response.send(
     "Phonebook has info for " +
