@@ -42,10 +42,6 @@ let persons = [
   },
 ];
 
-app.get("/", (req, res) => {
-  res.send("<h1>Hello World!</h1>");
-});
-
 // GET ALL PERSONS
 app.get("/api/persons", (request, response) => {
   response.json(persons);
