@@ -25,12 +25,12 @@ app.get("/api/persons", (request, response) => {
   });
 });
 
-// DELETE A PERSON
-app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((person) => person.id !== id);
-  response.status(204).end();
-});
+// // DELETE A PERSON
+// app.delete("/api/persons/:id", (request, response) => {
+//   const id = Number(request.params.id);
+//   persons = persons.filter((person) => person.id !== id);
+//   response.status(204).end();
+// });
 
 // GET A SINGLE PERSON
 app.get("/api/persons/:id", (request, response) => {
@@ -57,16 +57,16 @@ app.post("/api/persons", (request, response) => {
   });
 });
 
-// INFO PAGE
-app.get("/info", (request, response) => {
-  response.send(
-    "Phonebook has info for " +
-      persons.length +
-      " people" +
-      "<br></br>" +
-      new Date()
-  );
-});
+// // INFO PAGE
+// app.get("/info", (request, response) => {
+//   response.send(
+//     "Phonebook has info for " +
+//       persons.length +
+//       " people" +
+//       "<br></br>" +
+//       new Date()
+//   );
+// });
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
