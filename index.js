@@ -1,7 +1,11 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
+const Person = require("./models/person");
+
+// MIDDLEWARES
 app.use(express.static("build"));
 app.use(cors());
 app.use(express.json());
@@ -14,37 +18,11 @@ app.use(
   )
 );
 
-let persons = [
-  {
-    name: "Arto Hellas",
-    id: 1,
-    phone: "040-123456",
-  },
-  {
-    name: "Mary Poppendieck",
-    id: 2,
-    phone: "39-23-6423122",
-  },
-  {
-    name: "Dan Abramov",
-    phone: "044672345",
-    id: 5,
-  },
-  {
-    name: "Vladimir Putin",
-    phone: "666-HELL-1488",
-    id: 6,
-  },
-  {
-    name: "Sanna Marin",
-    phone: "0407935647",
-    id: 7,
-  },
-];
-
 // GET ALL PERSONS
 app.get("/api/persons", (request, response) => {
-  response.json(persons);
+  Person.find({}).then((persons) => {
+    response.json(persons);
+  });
 });
 
 // DELETE A PERSON
@@ -56,43 +34,27 @@ app.delete("/api/persons/:id", (request, response) => {
 
 // GET A SINGLE PERSON
 app.get("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((person) => person.id === id);
-  if (person) {
+  Person.findById(request.params.id).then((person) => {
     response.json(person);
-  } else {
-    response.status(404).end();
-    console.log("WRONG ID");
-  }
+  });
 });
-
-// GENERATE ID
-const generatedId = () => {
-  return Math.floor(Math.random() * 1000000) + persons.length;
-};
 
 // POST A NEW PERSON
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
-  if (!body.name) {
-    return response.status(400).json({
-      error: "Name is missing",
-    });
-  } else if (persons.some((e) => e.name === body.name)) {
-    return response.status(400).json({
-      error: "Name must be unique",
-    });
+  if (body.name === undefined) {
+    return response.status(400).json({ error: "content missing" });
   }
 
-  const person = {
+  const person = new Person({
     name: body.name,
     phone: body.phone,
-    id: generatedId(),
-  };
+  });
 
-  persons = persons.concat(person);
-  response.json(person);
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
 });
 
 // INFO PAGE
@@ -106,7 +68,7 @@ app.get("/info", (request, response) => {
   );
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

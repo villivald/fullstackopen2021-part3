@@ -11,7 +11,7 @@ const password = process.argv[2];
 const name = process.argv[3];
 const phone = process.argv[4];
 
-const url = `mongodb+srv://fullstack:PASSWORD@cluster0.ztsfy.mongodb.net/persons?retryWrites=true&w=majority`;
+const url = `mongodb+srv://fullstack:762762762@cluster0.ztsfy.mongodb.net/persons?retryWrites=true&w=majority`;
 
 mongoose.connect(url, {
   useNewUrlParser: true,
