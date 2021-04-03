@@ -58,7 +58,10 @@ app.get("/api/persons/:id", (request, response, next) => {
         response.status(404).end();
       }
     })
-    .catch((error) => next(error));
+    .catch((error) => {
+      console.log("WROND ID");
+      next(error);
+    });
 });
 
 // POST A NEW PERSON
