@@ -106,7 +106,7 @@ app.get("/info", (request, response) => {
         persons.length +
         " people" +
         "<br></br>" +
-        new Date()
+        new Date().toLocaleString("fi-FI", { timeZone: "Europe/Helsinki" })
     );
   });
 });
