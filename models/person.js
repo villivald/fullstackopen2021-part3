@@ -27,7 +27,7 @@ const noteSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator: function (v) {
-        return /d{8,}/.test(v);
+        return /[0-9]{8,}/.test(v);
       },
       message: "{VALUE} is shorter than the minimum allowed length (8).",
     },
