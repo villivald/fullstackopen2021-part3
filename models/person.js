@@ -20,8 +20,18 @@ mongoose
   });
 
 const noteSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
-  phone: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: true, minlength: 3 },
+  phone: {
+    type: Number,
+    required: true,
+    unique: true,
+    validate: {
+      validator: function (v) {
+        return /d{8,}/.test(v);
+      },
+      message: "{VALUE} is shorter than the minimum allowed length (8).",
+    },
+  },
 });
 
 noteSchema.plugin(uniqueValidator);
