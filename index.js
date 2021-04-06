@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // MORGAN
-morgan.token("content", (req, res) => {
+morgan.token("content", (req) => {
   return JSON.stringify(req.body);
 });
 
@@ -45,7 +45,7 @@ app.get("/api/persons", (request, response) => {
 // DELETE A PERSON
 app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
